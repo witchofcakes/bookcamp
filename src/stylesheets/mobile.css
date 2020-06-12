@@ -1,0 +1,38 @@
+@media (min-width: 992px) {
+    .margin-right--25-desktop{
+      margin-right: -25px !important;
+    }
+
+
+    .padding-top-bottom-container-camps{
+        padding-bottom: 150px;
+        padding-top: 80px;
+    }
+
+
+    .padding-top-main{
+        margin-top: 80px;
+    }
+
+    .margin-no-navbar{
+        margin-right: -20px;
+    }
+
+    .employer-vacancies-desktop{
+        display: inline;
+    }
+
+    .employer-vacancies-mobile{
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .employer-vacancies-desktop{
+        display: none;
+    }
+
+    .employer-vacancies-mobile{
+        display: inline;
+    }
+}
