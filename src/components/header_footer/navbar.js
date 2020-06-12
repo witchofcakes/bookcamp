@@ -21,14 +21,14 @@ class NavbarNotLoggedIn extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarText">
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <a className="nav-link" href={'/all-camps'}>
+                                    <a className="nav-link" href={'/'}>
                                         Всі табори
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a
                                         className="nav-link margin-right--25-desktop"
-                                        href={`/all-vacancies`}
+                                        href={`/login-user`}
                                     >
                                         <button className="enter-button-navbar">
                                             Вхід
@@ -38,7 +38,7 @@ class NavbarNotLoggedIn extends React.Component {
                                 <li className="nav-item">
                                     <a
                                         className="nav-link margin-no-navbar"
-                                        href={`/all-vacancies`}
+                                        href={`/registrate-user`}
                                     >
                                         <button className="registrate-button-navbar">
                                             Реєстрація
