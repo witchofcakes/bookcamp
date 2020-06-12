@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-scroll'
 
 export default class BannerAllCamps extends React.Component {
     render() {
@@ -15,9 +16,11 @@ export default class BannerAllCamps extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-12">
-                                <button className="banner-button">
-                                    Дивитись табори
-                                </button>
+                                <Link activeClass="active" className="test8" to="allCamps" spy={true} smooth={true} duration={500}>
+                                    <button className="banner-button">
+                                        Дивитись табори
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
