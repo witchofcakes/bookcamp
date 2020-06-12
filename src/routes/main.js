@@ -6,6 +6,8 @@ import NavbarNotLoggedIn from "../components/header_footer/navbar";
 import Registrate from "../components/registrate";
 import LogIn from "../components/log_in_user";
 
+//
+
 const Main = () => (
     <div>
         <BrowserRouter>
