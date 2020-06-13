@@ -2,17 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bc31ea7-1897-4336-8ece-068107014e1a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/log_in_user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/registrate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stylesheets/login_user.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/create_camp/create_camp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/create_camp/step_1_admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/create_camp/step_2_camp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/header_footer/navbar_admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/header_footer/navbar_logged_in.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stylesheets/create_camp.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/all_camps.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/all_camps.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/camp_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/camp_page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/header_footer/navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header_footer/navbar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stylesheets/all_camps.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/stylesheets/all_camps.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stylesheets/camp_page.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/stylesheets/camp_page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stylesheets/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/stylesheets/mobile.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,11 +55,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/create_camp" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/client/src/images" />
       <recent name="$PROJECT_DIR$/client/src/javascript" />
       <recent name="$PROJECT_DIR$/client/src/stylesheets" />
-      <recent name="$PROJECT_DIR$/client" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -84,7 +87,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1591974783979</updated>
-      <workItem from="1591974787837" duration="22627000" />
+      <workItem from="1591974787837" duration="23734000" />
+      <workItem from="1592061426027" duration="6091000" />
     </task>
     <servers />
   </component>

@@ -1,4 +1,9 @@
 @media (min-width: 992px) {
+    .employer-cabinet-display{
+        margin-top: 150px;
+        margin-bottom: 100px;
+    }
+
     .margin-right--25-desktop{
       margin-right: -25px !important;
     }

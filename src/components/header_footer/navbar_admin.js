@@ -1,6 +1,6 @@
 import React from 'react';
 
-class NavbarNotLoggedIn extends React.Component {
+export default class NavbarAdmin extends React.Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light navbar-desktop nav-active">
@@ -25,23 +25,14 @@ class NavbarNotLoggedIn extends React.Component {
                                 Всі табори
                             </a>
                         </li>
-                        <li className="nav-item">
-                            <a
-                                className="nav-link margin-right--25-desktop"
-                                href={`/login-user`}
-                            >
-                                <button className="enter-button-navbar">
-                                    Вхід
-                                </button>
-                            </a>
-                        </li>
+
                         <li className="nav-item">
                             <a
                                 className="nav-link margin-no-navbar"
-                                href={`/registrate-user`}
+                                href={`/create-camp`}
                             >
                                 <button className="registrate-button-navbar">
-                                    Реєстрація
+                                    Додати табір
                                 </button>
                             </a>
                         </li>
@@ -51,5 +42,3 @@ class NavbarNotLoggedIn extends React.Component {
         );
     }
 }
-
-export default NavbarNotLoggedIn;

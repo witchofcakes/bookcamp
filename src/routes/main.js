@@ -5,6 +5,7 @@ import CampPage from "../components/camp_page";
 import NavbarNotLoggedIn from "../components/header_footer/navbar";
 import Registrate from "../components/registrate";
 import LogIn from "../components/log_in_user";
+import CreateCamp from "../components/create_camp/create_camp";
 
 const Main = () => (
     <div>
@@ -25,6 +26,7 @@ const DefaultContainer = () => (
         <Switch>
             <Route exact path="/" component={AllCamps} />
             <Route path="/camp-page" component={CampPage} />
+            <Route path="/create-camp" component={CreateCamp} />
         </Switch>
     </div>
 );
