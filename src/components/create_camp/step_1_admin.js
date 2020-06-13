@@ -1,10 +1,5 @@
 import React from 'react';
 
-import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-
 import InputMask from "react-input-mask";
 
 export default class StepOne extends React.Component {

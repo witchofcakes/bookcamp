@@ -25,16 +25,16 @@ class NavbarLoggedIn extends React.Component {
                                 Всі табори
                             </a>
                         </li>
-                        {/*<li className="nav-item">*/}
-                        {/*    <a*/}
-                        {/*        className="nav-link margin-right--25-desktop"*/}
-                        {/*        href={`/login-user`}*/}
-                        {/*    >*/}
-                        {/*        <button className="enter-button-navbar">*/}
-                        {/*            Вхід*/}
-                        {/*        </button>*/}
-                        {/*    </a>*/}
-                        {/*</li>*/}
+                        <li className="nav-item">
+                            <a
+                                className="nav-link margin-right--25-desktop"
+                                href={`/user-profile`}
+                            >
+                                <button className="enter-button-navbar">
+                                    Юлій Цезар
+                                </button>
+                            </a>
+                        </li>
                         {/*<li className="nav-item">*/}
                         {/*    <a*/}
                         {/*        className="nav-link margin-no-navbar"*/}

@@ -171,8 +171,7 @@ class CreateCamp extends React.Component {
                                             Назад
                                         </button>
 
-                                        {this.state.activeStep ===
-                                        this.getNumberOfSteps() - 1 ? (
+                                        {this.state.activeStep === this.getNumberOfSteps() - 1 ? (
                                             <button
                                                 id="publish-btn-stepper"
                                                 onClick={this.handlePublish.bind(this)}

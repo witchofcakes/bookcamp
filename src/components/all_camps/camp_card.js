@@ -1,12 +1,14 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
 
-import Tooltip from '@material-ui/core/Tooltip';
+import { Link } from 'react-router-dom';
 
 class CampCard extends React.Component {
     constructor(props) {
         super(props);
+        this.state={
+            // campID: this.props.match.params.id,
+            campID: null
+        };
     }
 
     render() {
@@ -15,8 +17,7 @@ class CampCard extends React.Component {
                 <div className="col-12 col-lg-12">
                     <Link
                         to={{
-                            pathname: `/camp-page`,
-                            
+                            pathname: `/camp-page/${this.state.campID}`,
                         }}
                         className="card-form-link-big"
                     >
@@ -27,7 +28,7 @@ class CampCard extends React.Component {
                                         <Link
                                             className="title-card-form"
                                             to={{
-                                                pathname: `/camp-page/`,
+                                                pathname: `/camp-page/${this.state.campID}`,
                                             }}>
                                         {this.props.title}
                                         </Link>

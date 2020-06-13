@@ -10,128 +10,23 @@ export default class LogIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            employerID: null,
 
-            login: null,
             password: null,
             email: null,
+
+            verified: null,
+            authenticated:null,
+
             showPassword: false,
-
-            isLoading: false,
-            isError: false,
-            isSuccess: false,
-            errorStatus: null,
-            errorFields: [],
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
-
-    // async asyncCheckLogin() {
-    //     try {
-    //         const response = await axios.post(EMPLOYER_CREDENTIAL_VALIDATION_API, {
-    //             login: this.state.login,
-    //             password: this.state.password,
-    //         });
-    //         return response.data;
-    //     } catch (err) {
-    //         console.log(err.response.status);
-    //         switch (err.response.status) {
-    //             case 401:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                     errorStatus: 401,
-    //                     errorFields: ['login', 'password'],
-    //                 });
-    //                 break;
-    //             case 403:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                     errorStatus: 403,
-    //                     errorFields: err.response.data.data.map(errorObj => errorObj.param),
-    //                 });
-    //                 break;
-    //             case 500:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //             default:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //         }
-    //         throw err;
-    //     }
-    // }
-
-    // async asyncCheckSession() {
-    //     try {
-    //         const response = await axios.get(EMPLOYER_SESSION_CHECK_API);
-    //         return response.data;
-    //     } catch (err) {
-    //         switch (err.response.status) {
-    //             case 401:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //             case 500:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                     isLoading: false,
-    //                 });
-    //                 break;
-    //             default:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                     isLoading: false,
-    //                 });
-    //                 break;
-    //         }
-    //         throw err;
-    //     }
-    // }
 
     handleChange = evt => {
         this.setState({
             [evt.target.name]: evt.target.value,
         });
-    };
-
-    handleLoginClick = () => {
-        this.setState({
-            employerID: null,
-            isSuccess: false,
-
-            isLoading: true,
-            isError: false,
-            errorStatus: null,
-            errorFields: [],
-        });
-        // this.asyncCheckLogin()
-        //     .then(data => {
-        //         this.setState({
-        //             ...this.state,
-        //             employerID: data.employerID,
-        //             isSuccess: true,
-        //
-        //             isLoading: false,
-        //             isError: false,
-        //         });
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
     };
 
     handleClickShowPassword = () => {
@@ -144,22 +39,85 @@ export default class LogIn extends React.Component {
         event.preventDefault();
     };
 
+    authenticateUser() {
+        axios.get('/api/users/userCheck').then(response => {
+            if (typeof response.data.user !== 'undefined')
+                this.setState({
+                    user: response.data.user,
+                    authenticated: true
+                });
+            else{
+                this.setState({
+                    user: {},
+                    authenticated: false
+                });
+            }
+        }).catch(error => {
+            return this.setState({
+                user: {},
+                authenticated: false
+            });
+        });
+    }
+
+    componentDidMount() {
+        this.authenticateUser();
+    }
+
+    handleLoginClick = (e) => {
+        e.preventDefault();
+        const { email, password } = this.state;
+
+        if (!password || !email) {
+            return this.setState({
+                success: false,
+                response: 'Please complete the form',
+
+            });
+
+        }
+
+        axios.post('/api/users/checkVerified', { email }).then(response =>{
+
+            console.log(response.data);
+
+            this.setState({
+                response: response.data
+            });
+
+            if(response.data === true){
+                this.setState({
+                    verified: true
+                });
+                const { email, password, verified } = this.state;
+                //if(verified===true){
+                axios.post('/api/users/login', { email, password })
+                    .then(response => {
+                        console.log(response);
+                        this.setState({ success: true, response: response.data });
+                        if(response.data==='success'){
+                            this.props.history.push('/');
+                            window.location.reload();
+                        }
+                    }).catch(error => {
+                    this.setState({ success: false, response: 'Invalid username or password.' });
+                });
+                //}
+            }
+
+
+        }).catch(error => {
+            this.setState({ success: false, response: 'Error.' });
+
+        });
+    };
 
     InputFieldEmail() {
         return (
             <Input
                 name="email"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('email')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.email}
                 onChange={this.handleChange}
             />
@@ -172,17 +130,7 @@ export default class LogIn extends React.Component {
                 name={'password'}
                 aria-role="textbox"
                 data-testid="password"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('password')) {
-                        if (this.state.errorStatus === 401)
-                            return 'login-input-padding required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input-padding required-field';
-                        else return 'login-input-padding';
-                    } else {
-                        return 'login-input-padding';
-                    }
-                })()}
+                className={'login-input-padding'}
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 onChange={this.handleChange}
