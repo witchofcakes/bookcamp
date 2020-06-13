@@ -1,12 +1,71 @@
 import React from 'react';
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'simplebar/dist/simplebar.min.css';
 
-import axios from 'axios';
 import Footer from "./header_footer/footer";
+import axios from "axios";
 
 class CampPage extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: null,
+            description: null,
+            price: null,
+            oblast: null,
+            place_type: null,
+            food_and_place: null,
+            district: null,
+            street: null,
+            building_number: null,
+            quantity: '',
+        };
+
+        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.handleOrder = this.handleOrder.bind(this);
+    }
+
+    componentDidMount() {
+        axios
+            .get("/api/camps/" + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    name: response.data.name,
+                    description: response.data.description,
+                    price: response.data.price,
+                    oblast: response.data.oblast,
+                    place_type: response.data.place_type,
+                    food_and_place: response.data.food_and_place,
+                    district: response.data.district,
+                    street: response.data.street,
+                    building_number: response.data.building_number,
+                });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+
+    onChangeQuantity(e){
+        this.setState({
+            quantity: e.target.value
+        });
+    }
+
+    handleOrder(e){
+        e.preventDefault();
+        const obj = {
+            quantity: this.state.quantity,
+        };
+        console.log(obj);
+        axios.post('http://localhost:4000/camps/order/'+this.props.match.params.id, obj)
+            .then(res => console.log(res.data));
+
+        this.props.history.push('/');
+    }
 
     render(){
         return (
@@ -17,11 +76,11 @@ class CampPage extends React.Component {
                             <div className="row align-items-center">
                                 <div className="col-8">
                                     <p className="vacancy-title-big">
-                                        Абетка на воді
+                                        {this.state.name}
                                     </p>
 
                                     <p className="vacancy-title-small margin-info-row">
-                                        Полтавська область, Україна
+                                        {this.state.oblast}
                                     </p>
 
                                 </div>
@@ -47,10 +106,16 @@ class CampPage extends React.Component {
                                             Кількість
                                         </p>
                                         <p className="title-bottom-fixed-text">
-                                            <input type="number" placeholder="Від одного" className="quantity-input"/>
+                                            <input
+                                                type="number"
+                                                placeholder="Від одного"
+                                                className="quantity-input"
+                                                value={this.state.quantity}
+                                                onChange={this.onChangeQuantity}
+                                            />
                                         </p>
 
-                                        <button className="button-box-side">
+                                        <button className="button-box-side" onClick={this.handleOrder}>
                                             Замовити
                                         </button>
                                     </div>
@@ -82,15 +147,8 @@ class CampPage extends React.Component {
                                         <div className="col-12 column-vacancy-info">
                                             <div className="row">
                                                 <div className="col-12">
-                                                    {/*<div className="vacancy-info-categories-color">*/}
-                                                    {/*    Графік роботи*/}
-                                                    {/*</div>*/}
                                                     <p className="vacancy-text-color">
-                                                        Дитячий мовний табір «Celyn ABC-camp» - це незабутній дитячий відпочинок на мові великого Шекспіра. Тут діти від 7 до 16 років вивчають англійську мову і вдосконалюють навички спілкування. З хлопцями займаються викладачі та activity-лідери з Великобританії, які мають досвід роботи в дитячих таборах і необхідні сертифікати. У таборі діти долають мовний бар'єр, застосовуючи свої знання в безпосередньому спілкуванні.
-
-                                                        Програма проводиться в дитячо-юнацькому санаторному таборі «Буревісник» в Полтавській області - відомого курортного регіону з унікальним м'яким кліматом. Діти за зміну по-справжньому відпочивають від міста, стають більш здоровими, завдяки найчистішому повітрю, сосновому бору, цілющою Новосанжарської воді.
-
-                                                        Трансфер до дитячого табору (туди-назад) організований з Києва, а також (за доп. Плату) з Харкова і Бєлгорода на автобусі.
+                                                        {this.state.description}
                                                     </p>
                                                 </div>
                                             </div>
@@ -102,7 +160,7 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        Полтава, Україна
+                                                        {this.state.oblast}
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,7 +172,8 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        Полтавська область, Новосанжарський район, с. Клюсівка
+                                                        {this.state.oblast}, {this.state.place_type},
+                                                        {this.state.district}, {this.state.street}, {this.state.building_number}
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,7 +185,7 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        6 500 гривень
+                                                        {this.state.price} гривень
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,26 +213,21 @@ class CampPage extends React.Component {
                                             <div className="row">
                                                 <div className="col-12">
                                                     <p className="vacancy-text-color-company">
-                                                        {/*<Markdown*/}
-                                                        {/*    escapeHtml={true}*/}
-                                                        {/*    source={state.aboutCompany}*/}
-                                                        {/*/>*/}
+                                                        {this.state.food_and_place}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="row">
-                                                <div className="col-12">
-                                                    <div className="vacancy-info-categories-color">
-                                                        Переваги компанії
-                                                    </div>
-                                                    <p className="vacancy-text-color">
-                                                        {/*<Markdown*/}
-                                                        {/*    escapeHtml={true}*/}
-                                                        {/*    source={state.advantageCompany}*/}
-                                                        {/*/>*/}
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            {/*<div className="row">*/}
+                                            {/*    <div className="col-12">*/}
+                                            {/*        <div className="row">*/}
+                                            {/*            <div className="col-12">*/}
+                                            {/*                <p className="vacancy-text-color">*/}
+                                            {/*                    {this.state.food_and_place}*/}
+                                            {/*                </p>*/}
+                                            {/*            </div>*/}
+                                            {/*        </div>*/}
+                                            {/*    </div>*/}
+                                            {/*</div>*/}
                                         </div>
                                     </div>
                                 </TabPanel>

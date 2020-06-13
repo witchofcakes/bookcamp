@@ -10,102 +10,20 @@ export default class Registrate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            employerID: null,
 
-            login: null,
+            name: null,
+            surname: null,
             password: null,
+            email: null,
             phone: null,
             phone1: null,
             phone2: null,
-            email: null,
-            name: null,
-            surname: null,
+
             showPassword: false,
-
-            isLoading: false,
-            isError: false,
-            isSuccess: false,
-            errorStatus: null,
-            errorFields: [],
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
-
-    // async asyncCheckLogin() {
-    //     try {
-    //         const response = await axios.post(EMPLOYER_CREDENTIAL_VALIDATION_API, {
-    //             login: this.state.login,
-    //             password: this.state.password,
-    //         });
-    //         return response.data;
-    //     } catch (err) {
-    //         console.log(err.response.status);
-    //         switch (err.response.status) {
-    //             case 401:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                     errorStatus: 401,
-    //                     errorFields: ['login', 'password'],
-    //                 });
-    //                 break;
-    //             case 403:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                     errorStatus: 403,
-    //                     errorFields: err.response.data.data.map(errorObj => errorObj.param),
-    //                 });
-    //                 break;
-    //             case 500:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //             default:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //         }
-    //         throw err;
-    //     }
-    // }
-
-    // async asyncCheckSession() {
-    //     try {
-    //         const response = await axios.get(EMPLOYER_SESSION_CHECK_API);
-    //         return response.data;
-    //     } catch (err) {
-    //         switch (err.response.status) {
-    //             case 401:
-    //                 this.setState({
-    //                     isError: true,
-    //                     isLoading: false,
-    //                     isSuccess: false,
-    //                 });
-    //                 break;
-    //             case 500:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                     isLoading: false,
-    //                 });
-    //                 break;
-    //             default:
-    //                 this.setState({
-    //                     redirect: '/500',
-    //                     isSuccess: false,
-    //                     isLoading: false,
-    //                 });
-    //                 break;
-    //         }
-    //         throw err;
-    //     }
-    // }
 
     handleChange = evt => {
         this.setState({
@@ -113,31 +31,6 @@ export default class Registrate extends React.Component {
         });
     };
 
-    handleLoginClick = () => {
-        this.setState({
-            employerID: null,
-            isSuccess: false,
-
-            isLoading: true,
-            isError: false,
-            errorStatus: null,
-            errorFields: [],
-        });
-        // this.asyncCheckLogin()
-        //     .then(data => {
-        //         this.setState({
-        //             ...this.state,
-        //             employerID: data.employerID,
-        //             isSuccess: true,
-        //
-        //             isLoading: false,
-        //             isError: false,
-        //         });
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
-    };
 
     handleClickShowPassword = () => {
         this.setState({
@@ -149,42 +42,37 @@ export default class Registrate extends React.Component {
         event.preventDefault();
     };
 
-    InputFieldLogin() {
-        return (
-            <Input
-                name="login"
-                aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('login')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
-                value={this.state.login}
-                onChange={this.handleChange}
-            />
-        );
-    }
+    handleRegistrateClick = (e) => {
+        e.preventDefault();
+        const { name, surname, password, email, phone, phone1, phone2} = this.state;
+
+        if (!name || !surname || !password || !email || !phone) {
+            return this.setState({
+                success: false,
+                response: 'Please complete the form'
+            });
+        }
+
+        this.setState({
+            response:'Checking email...',
+        });
+
+        axios.post('/api/users/register', { name, surname, password, email, phone, phone1, phone2})
+            .then(response => {
+                this.setState({ success: true });
+                console.log(response.data);
+                this.setState({response: response.data})
+            }).catch(error => {
+            this.setState({ success: false, response: error.response.data });
+        });
+    };
 
     InputFieldName() {
         return (
             <Input
                 name="name"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('name')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.name}
                 onChange={this.handleChange}
             />
@@ -196,16 +84,7 @@ export default class Registrate extends React.Component {
             <Input
                 name="surname"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('surname')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.surname}
                 onChange={this.handleChange}
             />
@@ -217,16 +96,7 @@ export default class Registrate extends React.Component {
             <Input
                 name="email"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('email')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.email}
                 onChange={this.handleChange}
             />
@@ -238,16 +108,7 @@ export default class Registrate extends React.Component {
             <Input
                 name="phone"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('phone')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.phone}
                 onChange={this.handleChange}
             />
@@ -259,16 +120,7 @@ export default class Registrate extends React.Component {
             <Input
                 name="phone1"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('phone1')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.phone1}
                 onChange={this.handleChange}
             />
@@ -280,16 +132,7 @@ export default class Registrate extends React.Component {
             <Input
                 name="phone2"
                 aria-role="textbox"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('phone2')) {
-                        if (this.state.errorStatus === 401) return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input-padding required-field';
-                        else return 'login-input-padding';
-                    } else {
-                        return 'login-input-padding';
-                    }
-                })()}
+                className={'login-input'}
                 value={this.state.phone2}
                 onChange={this.handleChange}
             />
@@ -302,17 +145,7 @@ export default class Registrate extends React.Component {
                 name={'password'}
                 aria-role="textbox"
                 data-testid="password"
-                className={(() => {
-                    if (this.state.isError && this.state.errorFields.includes('password')) {
-                        if (this.state.errorStatus === 401)
-                            return 'login-input required-field';
-                        else if (this.state.errorStatus === 403)
-                            return 'login-input required-field';
-                        else return 'login-input';
-                    } else {
-                        return 'login-input';
-                    }
-                })()}
+                className={'login-input'}
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 onChange={this.handleChange}
@@ -435,12 +268,12 @@ export default class Registrate extends React.Component {
                                             {this.InputFieldPhone2()}
                                         </FormControl>
 
-                                            <button
-                                                onClick={this.handleLoginClick.bind(this)}
-                                                className="button-login"
-                                            >
-                                                Реєстрація
-                                            </button>
+                                        <button
+                                            onClick={this.handleRegistrateClick.bind(this)}
+                                            className="button-login"
+                                        >
+                                            Реєстрація
+                                        </button>
 
                                     </div>
                                 </div>

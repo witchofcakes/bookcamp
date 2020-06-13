@@ -1,0 +1,38 @@
+.text-orders-user{
+    font-size: 22px;
+    font-weight: 700;
+    color: #484848;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.name-page-all{
+    font-size: 27px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.small-desricption-text{
+    font-size: 18px;
+    font-weight: 600;
+    color: #717171;
+    margin-bottom: 20px;
+}
+
+.save-changes-button{
+    background: #212529;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.margin-bottom--20{
+    margin-bottom: -20px;
+}
