@@ -213,4 +213,4 @@ infrastructure/nginx/.htpasswd
 infrastructure/nginx/certs
 
 ### VENV ###
-/venv
+/venv.idea

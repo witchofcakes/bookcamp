@@ -6,6 +6,7 @@ import "./stylesheets/all_camps.css";
 import "./stylesheets/camp_page.css";
 import  "./stylesheets/mobile.css";
 import "./stylesheets/login_user.css"
+import "./stylesheets/create_camp.css"
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from "react-router-dom";
 
