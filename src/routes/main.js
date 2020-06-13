@@ -7,6 +7,8 @@ import Registrate from "../components/registrate";
 import LogIn from "../components/log_in_user";
 import CreateCamp from "../components/create_camp/create_camp";
 
+//
+
 const Main = () => (
     <div>
         <BrowserRouter>
