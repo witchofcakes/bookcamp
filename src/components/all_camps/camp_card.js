@@ -7,7 +7,7 @@ class CampCard extends React.Component {
         super(props);
         this.state={
             // campID: this.props.match.params.id,
-            campID: null
+            campID: this.props.index
         };
     }
 

@@ -4,6 +4,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'simplebar/dist/simplebar.min.css';
 
+import Tooltip from "@material-ui/core/Tooltip";
+
 import Footer from "./header_footer/footer";
 import axios from "axios";
 
@@ -12,6 +14,10 @@ class CampPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            campID: this.props.match.params.id,
+            userID: 1,
+            AdministratorAdminId: null,
+
             name: null,
             description: null,
             price: null,
@@ -20,7 +26,11 @@ class CampPage extends React.Component {
             food_and_place: null,
             district: null,
             street: null,
+            place_name: '',
             building_number: null,
+            admin_first_name: null,
+            admin_last_name: null,
+
             quantity: '',
         };
 
@@ -30,7 +40,7 @@ class CampPage extends React.Component {
 
     componentDidMount() {
         axios
-            .get("/api/camps/" + this.props.match.params.id)
+            .get('http://localhost:4000/api/camps/getExactCamp/' + this.state.campID)
             .then(response => {
                 this.setState({
                     name: response.data.name,
@@ -41,8 +51,13 @@ class CampPage extends React.Component {
                     food_and_place: response.data.food_and_place,
                     district: response.data.district,
                     street: response.data.street,
+                    place_name: response.data.place_name,
                     building_number: response.data.building_number,
+                    admin_first_name: response.data.admin_first_name,
+                    admin_last_name: response.data.admin_last_name,
+                    AdministratorAdminId: response.data.AdministratorAdminId,
                 });
+
             })
             .catch(function(error) {
                 console.log(error);
@@ -56,15 +71,63 @@ class CampPage extends React.Component {
     }
 
     handleOrder(e){
-        e.preventDefault();
-        const obj = {
-            quantity: this.state.quantity,
-        };
-        console.log(obj);
-        axios.post('http://localhost:4000/camps/order/'+this.props.match.params.id, obj)
-            .then(res => console.log(res.data));
+
+        if(this.state.quantity) {
+            e.preventDefault();
+            const obj = {
+                amount: this.state.quantity,
+                price: this.state.price,
+
+                user_id: this.state.userID,
+                camp_id: this.state.campID,
+            };
+            console.log(obj);
+            axios.post('http://localhost:4000/api/orders/createOrder', obj)
+                .then(res => {
+                    alert("Замовлення пройшло успішно!");
+                    console.log(res.data)
+                })
+                .catch(() => {
+                    console.log("Error while creating order")
+                });
+        }
+        else{
+            alert("Будь ласка, введіть бажану кількість :(");
+        }
+    }
+
+    renderPrice(value){
+        const nf = new Intl.NumberFormat("ukr", {
+            style: "currency",
+            currency: "UAH",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        return nf.format(value);
+    }
+
+    renderPlaceType(value){
+        if(value===1){
+            return "місто";
+        }
+        else if(value===2){
+            return "смт";
+        }
+        else if(value===3){
+            return "село";
+        }
+    }
+
+    deleteCamp(parameter, event){
+        event.preventDefault();
+
+        axios.get('http://localhost:4000/api/camps/deleteCamp/' + parameter)
+            .then(res => console.log(res.data))
+            .catch(err=> console.log(err));
 
         this.props.history.push('/');
+        window.location.reload();
     }
 
     render(){
@@ -75,32 +138,43 @@ class CampPage extends React.Component {
                         <div className="container">
                             <div className="row align-items-center">
                                 <div className="col-8">
+
                                     <p className="vacancy-title-big">
                                         {this.state.name}
                                     </p>
-
                                     <p className="vacancy-title-small margin-info-row">
-                                        {this.state.oblast}
+                                        {this.state.oblast}, {this.state.place_name}
                                     </p>
-
+                                    <div className="margin-edit-delete-buttons">
+                                        <Tooltip title={"Редагувати табір"}>
+                                            <a href={"/edit-camp/" + this.state.campID}>
+                                                <button className="edit-button-camp">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        className="feather-edit-employer"
+                                                    >
+                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                                                    </svg>
+                                                </button>
+                                            </a>
+                                        </Tooltip>
+                                        <Tooltip title="Видалити табір">
+                                            <button className="delete-button-camp" onClick={this.deleteCamp.bind(this, this.state.campID)}>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    className="feather-trash-employer"
+                                                >
+                                                    <polyline points="3 6 5 6 21 6" />
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                </svg>
+                                            </button>
+                                        </Tooltip>
+                                    </div>
                                 </div>
                                 <div className="col-4">
                                     <div className="box-order-camp">
-                                        {/*<p className="title-bottom-fixed">*/}
-                                        {/*    Адміністратор табору*/}
-                                        {/*</p>*/}
-                                        {/*<p>*/}
-                                        {/*    <a href={"#"} className="admin-box-camp">*/}
-                                        {/*        Юлій Цезар*/}
-                                        {/*    </a>*/}
-                                        {/*</p>*/}
-
-                                        {/*<p className="title-bottom-fixed">*/}
-                                        {/*    Вартість*/}
-                                        {/*</p>*/}
-                                        {/*<p className="title-bottom-fixed-text">*/}
-                                        {/*    6 500 гривень*/}
-                                        {/*</p>*/}
 
                                         <p className="title-bottom-fixed">
                                             Кількість
@@ -172,8 +246,17 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        {this.state.oblast}, {this.state.place_type},
-                                                        {this.state.district}, {this.state.street}, {this.state.building_number}
+                                                        {
+                                                            this.state.district ?
+                                                                <React.Fragment>
+                                                                    {this.state.oblast}, {this.renderPlaceType(this.state.place_type)}, {this.state.place_name}, {this.state.district}, {this.state.street} вулиця, {this.state.building_number}
+                                                                </React.Fragment>
+                                                        :
+                                                                <React.Fragment>
+                                                                    {this.state.oblast}, {this.renderPlaceType(this.state.place_type)}, {this.state.place_name}, {this.state.street} вулиця, {this.state.building_number}
+                                                                </React.Fragment>
+                                                        }
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,7 +268,7 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        {this.state.price} гривень
+                                                        {this.renderPrice(this.state.price)}
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,8 +280,8 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        <a className="admin-vacancy-link" href="#">
-                                                            Юлій Цезар
+                                                        <a className="admin-vacancy-link" href={`/admin-page/${this.state.adminID}`}>
+                                                            {this.state.admin_first_name} {this.state.admin_last_name}
                                                         </a>
                                                     </div>
                                                 </div>

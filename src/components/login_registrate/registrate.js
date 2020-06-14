@@ -5,21 +5,23 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
+import InputMask from "react-input-mask";
 
 export default class Registrate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
 
-            name: null,
-            surname: null,
-            password: null,
-            email: null,
-            phone: null,
-            phone1: null,
-            phone2: null,
+            first_name: '',
+            last_name: '',
+            password: '',
+            email: '',
+            phone_1: '',
+            phone_2: '',
+            phone_3: '',
 
             showPassword: false,
+            response: null,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -44,36 +46,43 @@ export default class Registrate extends React.Component {
 
     handleRegistrateClick = (e) => {
         e.preventDefault();
-        const { name, surname, password, email, phone, phone1, phone2} = this.state;
+        const { first_name, last_name, password, email, phone_1, phone_2, phone_3} = this.state;
 
-        if (!name || !surname || !password || !email || !phone) {
-            return this.setState({
-                success: false,
-                response: 'Please complete the form'
+        if (!first_name || !last_name || !password || !email || !phone_1) {
+            alert("Будь ласка, заповніть всі обов'язкові поля")
+        }
+        else if(password.length < 8) {
+            alert("Пароль занадто короткий. Довжина має бути від 8 символів")
+        }
+        else {
+            axios.post('http://localhost:4000/api/users/register', {
+                first_name,
+                last_name,
+                password,
+                email,
+                phone_1,
+                phone_2,
+                phone_3
+            })
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({response: response.data});
+
+                    alert("Реєстрація пройшла успішно!");
+
+                    this.props.history.push("/");
+                }).catch(error => {
+                console.log("Registration error")
             });
         }
-
-        this.setState({
-            response:'Checking email...',
-        });
-
-        axios.post('/api/users/register', { name, surname, password, email, phone, phone1, phone2})
-            .then(response => {
-                this.setState({ success: true });
-                console.log(response.data);
-                this.setState({response: response.data})
-            }).catch(error => {
-            this.setState({ success: false, response: error.response.data });
-        });
     };
 
     InputFieldName() {
         return (
             <Input
-                name="name"
-                aria-role="textbox"
+                name="first_name"
                 className={'login-input'}
-                value={this.state.name}
+                value={this.state.first_name}
                 onChange={this.handleChange}
             />
         );
@@ -82,10 +91,9 @@ export default class Registrate extends React.Component {
     InputFieldSurname() {
         return (
             <Input
-                name="surname"
-                aria-role="textbox"
+                name="last_name"
                 className={'login-input'}
-                value={this.state.surname}
+                value={this.state.last_name}
                 onChange={this.handleChange}
             />
         );
@@ -95,7 +103,6 @@ export default class Registrate extends React.Component {
         return (
             <Input
                 name="email"
-                aria-role="textbox"
                 className={'login-input'}
                 value={this.state.email}
                 onChange={this.handleChange}
@@ -105,36 +112,39 @@ export default class Registrate extends React.Component {
 
     InputFieldPhone() {
         return (
-            <Input
-                name="phone"
-                aria-role="textbox"
-                className={'login-input'}
-                value={this.state.phone}
+            <InputMask
+                name="phone_1"
+                mask="+380 (99) 999 99 99"
+                placeholder="+380 (__) ___ __ __"
                 onChange={this.handleChange}
+                className={'login-input-phone'}
+                value={this.state.phone_1}
             />
         );
     }
 
     InputFieldPhone1() {
         return (
-            <Input
-                name="phone1"
-                aria-role="textbox"
-                className={'login-input'}
-                value={this.state.phone1}
+            <InputMask
+                name="phone_2"
+                mask="+380 (99) 999 99 99"
+                placeholder="+380 (__) ___ __ __"
                 onChange={this.handleChange}
+                className={'login-input-phone'}
+                value={this.state.phone_2}
             />
         );
     }
 
     InputFieldPhone2() {
         return (
-            <Input
-                name="phone2"
-                aria-role="textbox"
-                className={'login-input'}
-                value={this.state.phone2}
+            <InputMask
+                name="phone_3"
+                mask="+380 (99) 999 99 99"
+                placeholder="+380 (__) ___ __ __"
                 onChange={this.handleChange}
+                className={'login-input-phone'}
+                value={this.state.phone_3}
             />
         );
     }
@@ -143,8 +153,6 @@ export default class Registrate extends React.Component {
         return (
             <Input
                 name={'password'}
-                aria-role="textbox"
-                data-testid="password"
                 className={'login-input'}
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
@@ -153,8 +161,8 @@ export default class Registrate extends React.Component {
                     <InputAdornment position="end">
                         <IconButton
                             className="button-login-bg"
-                            disableRipple="true"
-                            disableFocusRipple="true"
+                            disableRipple={true}
+                            disableFocusRipple={true}
                             aria-label="toggle password visibility"
                             onClick={this.handleClickShowPassword.bind(this)}
                             onMouseDown={this.handleMouseDownPassword}
@@ -204,7 +212,7 @@ export default class Registrate extends React.Component {
                                         </p>
                                         <p className="login-name-login">
                                             Ім'я
-                                            <div className="required-mark">*</div>
+                                            <span className="required-mark">*</span>
                                         </p>
                                         <FormControl className="col-12 form-control-login">
                                             {this.InputFieldName()}

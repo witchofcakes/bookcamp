@@ -40,7 +40,7 @@ export default class LogIn extends React.Component {
     };
 
     authenticateUser() {
-        axios.get('/api/users/userCheck').then(response => {
+        axios.get('http://localhost:4000/api/users/login').then(response => {
             if (typeof response.data.user !== 'undefined')
                 this.setState({
                     user: response.data.user,

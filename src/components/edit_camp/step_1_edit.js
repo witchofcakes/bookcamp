@@ -2,7 +2,7 @@ import React from 'react';
 
 import InputMask from "react-input-mask";
 
-export default class StepOne extends React.Component {
+export default class StepOneEdit extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -20,7 +20,6 @@ export default class StepOne extends React.Component {
     render() {
         return (
             <div className="col-9">
-                <div className="all-camps-big-text">Створення адміністратора</div>
                 <div className="title-vac-div">
                     <div className="col-12 no-gutters create-vac-input-name-title">
                         Ім'я
