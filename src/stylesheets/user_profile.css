@@ -14,6 +14,15 @@
     text-transform: uppercase;
 }
 
+.name-page-all-edit{
+    font-size: 27px;
+    font-weight: 700;
+    color: #212529;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
 .small-desricption-text{
     font-size: 18px;
     font-weight: 600;
@@ -35,4 +44,35 @@
 
 .margin-bottom--20{
     margin-bottom: -20px;
+}
+
+.pay-button-table-paid{
+    background: unset;
+    padding: 8px 15px;
+    color: #484848;
+    border: 1.5px solid #717171;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.pay-button-table{
+    background: lightgreen;
+    padding: 8px 15px;
+    color: #212529;
+    border: 1.5px solid lightgreen;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.create-vac-input-disabled {
+    background: #ebebec;
+    border: 1px solid #ebebec;
+    border-radius: 5px;
+    color: #212529;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 15px;
+    margin-bottom: 50px;
 }

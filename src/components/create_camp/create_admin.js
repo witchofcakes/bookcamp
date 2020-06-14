@@ -11,26 +11,18 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepOne from "./step_1_admin";
 import StepTwo from "./step_2_camp";
 
-class CreateCamp extends React.Component {
+class CreateAdmin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
 
-            campID: null,
+            adminID: null,
             activeStep: 0,
 
-            admin_id: null,
-            name: '',
-            description: '',
-            price: null,
-            oblast: '',
-            place_type: null,
-            food_and_place: '',
-            district: '',
-            street: '',
-            building_number: null,
-            place_name: '',
-            AdministratorAdminId: null,
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -64,6 +56,17 @@ class CreateCamp extends React.Component {
         });
     };
 
+    handleBack = async () => {
+        await this.setState( {
+            activeStep: this.state.activeStep - 1,
+        });
+        scroll.scrollToTop({
+            duration: 500,
+            delay: 0,
+            smooth: true
+        });
+    };
+
     handlePublish = (e) => {
         e.preventDefault();
 
@@ -77,44 +80,32 @@ class CreateCamp extends React.Component {
             smooth: true
         });
 
-        const newCamp = {
-            name: this.state.name,
-            description: this.state.description,
-            price: this.state.price,
-            oblast: this.state.oblast,
-            place_type: this.state.place_type,
-            food_and_place: this.state.food_and_place,
-            district: this.state.district,
-            street: this.state.street,
-            building_number: this.state.building_number,
-            place_name: this.state.place_name,
-            AdministratorAdminId: this.state.AdministratorAdminId,
+        const newAdmin = {
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            email: this.state.email,
+            phone:this.state.phone,
         };
 
-        axios.post('http://localhost:4000/api/camps/createCamp', newCamp)
+        axios.post('http://localhost:4000/api/admins/createAdmin', newAdmin)
             .then(response => {
                 this.setState({
-                    campID: response.data.camp_id
+                    adminID: response.data.admin_id
                 });
             })
             .catch(() => {
                 console.log("Error while posting")
             });
 
-        console.log(newCamp);
+        console.log(newAdmin);
+
 
         this.setState({
-            name: '',
-            description: '',
-            price: '',
-            oblast: '',
-            place_type: '',
-            food_and_place: '',
-            district: '',
-            street: '',
-            building_number: '',
-            place_name: '',
-            AdministratorAdminId: '',
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
+
         });
     };
 
@@ -122,21 +113,12 @@ class CreateCamp extends React.Component {
         switch (step) {
             case 0:
                 return (
-                    <StepTwo
-                        admin_id={this.state.admin_id}
-                        name={this.state.name}
-                        description={this.state.description}
-                        price={this.state.price}
-                        oblast={this.state.oblast}
-                        place_type={this.state.place_type}
-                        food_and_place={this.state.food_and_place}
-                        district={this.state.district}
-                        street={this.state.street}
-                        building_number={this.state.building_number}
-                        place_name={this.state.place_name}
-                        AdministratorAdminId={this.state.AdministratorAdminId}
+                    <StepOne
+                        first_name={this.state.first_name}
+                        last_name={this.state.last_name}
+                        email = {this.state.email}
+                        phone = {this.state.phone}
                         onChange={this.handleChange}
-                        onChangeFieldValue={this.handleChangeFieldValue}
                     />
                 );
 
@@ -148,15 +130,17 @@ class CreateCamp extends React.Component {
     render() {
         return (
             <div className="employer-cabinet-display">
-                <div className="row center-row">
+                <div className="row justify-content-center">
                     <Stepper
-                        className="col-9"
+                        className="col-11"
                         id="stepper-icons"
                         activeStep={this.state.activeStep}
                         alternativeLabel
                     >
                         {/*<Step key={0}>*/}
-                        {/*    <div className="col-12 all-camps-big-text">Створення табору</div>*/}
+                        {/*    <StepLabel>*/}
+                        {/*        Дані про адміністратора*/}
+                        {/*    </StepLabel>*/}
                         {/*</Step>*/}
                     </Stepper>
                 </div>
@@ -176,7 +160,7 @@ class CreateCamp extends React.Component {
                                         <line x1="9" y1="9" x2="9.01" y2="9" />
                                         <line x1="15" y1="9" x2="15.01" y2="9" />
                                     </svg>
-                                    Табір опублікований!
+                                    Адміністратор доданий!
                                 </div>
                             </div>
 
@@ -185,11 +169,11 @@ class CreateCamp extends React.Component {
                                     <Link
                                         className="look-at-vac-link"
                                         to={{
-                                            pathname: `/camp-page/${this.state.campID}`,
+                                            pathname: `/admin-page/${this.state.adminID}`,
                                         }}
                                     >
                                         <button className="look-at-vac-btn">
-                                            Переглянути табір
+                                            Переглянути адміна
                                         </button>
                                     </Link>
                                 </div>
@@ -235,4 +219,4 @@ class CreateCamp extends React.Component {
     }
 }
 
-export default CreateCamp;
+export default CreateAdmin;

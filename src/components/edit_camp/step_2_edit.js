@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
-export default class StepTwo extends React.Component {
+export default class StepTwoEdit extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -26,7 +26,7 @@ export default class StepTwo extends React.Component {
     render() {
         return (
             <div className="col-9">
-                <div className="all-camps-big-text">Створення табору</div>
+                <div className="all-camps-big-text">Редагування табору</div>
                 <div className="title-vac-div">
                     <div className="col-12 no-gutters create-vac-input-name-title">
                         Назва
@@ -37,23 +37,6 @@ export default class StepTwo extends React.Component {
                             type="text"
                             name="name"
                             value={this.props.name}
-                            className={'create-vac-input'}
-                            aria-label="Назва вакансії"
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                </div>
-
-                <div className="title-vac-div">
-                    <div className="col-12 no-gutters create-vac-input-name">
-                        Адміністратор
-                        <div className="required-mark">*</div>
-                    </div>
-                    <div className="col-12 no-gutters">
-                        <input
-                            type="number"
-                            name="admin_id"
-                            value={this.props.admin_id}
                             className={'create-vac-input'}
                             aria-label="Назва вакансії"
                             onChange={this.handleChange}

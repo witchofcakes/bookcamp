@@ -9,6 +9,11 @@ import CreateCamp from "../components/create_camp/create_camp";
 import NavbarAdmin from "../components/header_footer/navbar_admin";
 import NavbarLoggedIn from "../components/header_footer/navbar_logged_in";
 import UserProfile from "../components/user_profile";
+import EditCamp from "../components/edit_camp/edit_camp";
+import AllAdmins from "../components/admin_info/all_admins";
+import CreateAdmin from "../components/create_camp/create_admin";
+import AdminProfile from "../components/admin_info/admin_profile";
+import EditAdminProfile from "../components/admin_info/edit_admin_profile";
 
 class Main extends React.Component {
     render() {
@@ -32,7 +37,7 @@ class DefaultContainer extends React.Component{
         super(props);
         this.state = {
 
-            isAdmin: false,
+            isAdmin: true,
             loggedIn: false,
 
         };
@@ -55,8 +60,13 @@ class DefaultContainer extends React.Component{
                 <Switch>
                     <Route exact path="/" component={AllCamps} />
                     <Route path="/camp-page/:id" component={CampPage} />
-                    <Route path="/create-camp" component={CreateCamp} />
                     <Route path="/user-profile" component={UserProfile} />
+                    <Route path="/create-camp" component={CreateCamp} />
+                    <Route path="/create-admin" component={CreateAdmin} />
+                    <Route path="/all-admins" component={AllAdmins} />
+                    <Route path="/admin-page/:id" component={AdminProfile} />
+                    <Route path="/edit-camp/:id" component={EditCamp} />
+                    <Route path="/edit-admin/:id" component={EditAdminProfile} />
                 </Switch>
             </div>
         )

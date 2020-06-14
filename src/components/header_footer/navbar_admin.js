@@ -25,6 +25,22 @@ export default class NavbarAdmin extends React.Component {
                                 Всі табори
                             </a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href={'/all-admins'}>
+                                Всі адміни
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a
+                                className="nav-link margin-right--25-desktop"
+                                href={`/create-admin`}
+                            >
+                                <button className="enter-button-navbar">
+                                    Додати адміна
+                                </button>
+                            </a>
+                        </li>
 
                         <li className="nav-item">
                             <a

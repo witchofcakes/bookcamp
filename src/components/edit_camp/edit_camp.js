@@ -8,18 +8,18 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 
-import StepOne from "./step_1_admin";
-import StepTwo from "./step_2_camp";
+import StepOneEdit from "./step_1_edit";
+import StepTwoEdit from "./step_2_edit";
 
-class CreateCamp extends React.Component {
+class EditCamp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
 
-            campID: null,
             activeStep: 0,
+            campID: this.props.match.params.id,
+            AdministratorAdminId: null,
 
-            admin_id: null,
             name: '',
             description: '',
             price: null,
@@ -30,11 +30,33 @@ class CreateCamp extends React.Component {
             street: '',
             building_number: null,
             place_name: '',
-            AdministratorAdminId: null,
 
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeFieldValue = this.handleChangeFieldValue.bind(this);
+    }
+
+    componentDidMount(){
+        axios.get('http://localhost:4000/api/camps/getExactCamp/' + this.state.campID)
+            .then(response => {
+                this.setState({
+                    name: response.data.name,
+                    description: response.data.description,
+                    price: response.data.price,
+                    oblast: response.data.oblast,
+                    place_type: response.data.place_type,
+                    food_and_place: response.data.food_and_place,
+                    district: response.data.district,
+                    street: response.data.street,
+                    building_number: response.data.building_number,
+                    place_name: response.data.place_name,
+                    AdministratorAdminId: response.data.AdministratorAdminId,
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     getNumberOfSteps() {
@@ -56,6 +78,17 @@ class CreateCamp extends React.Component {
     handleNext = async () => {
         this.setState({
             activeStep: this.state.activeStep + 1,
+        });
+        scroll.scrollToTop({
+            duration: 500,
+            delay: 0,
+            smooth: true
+        });
+    };
+
+    handleBack = async () => {
+        await this.setState( {
+            activeStep: this.state.activeStep - 1,
         });
         scroll.scrollToTop({
             duration: 500,
@@ -91,11 +124,9 @@ class CreateCamp extends React.Component {
             AdministratorAdminId: this.state.AdministratorAdminId,
         };
 
-        axios.post('http://localhost:4000/api/camps/createCamp', newCamp)
+        axios.post('http://localhost:4000/api/camps/updateCamp/' + this.state.campID, newCamp)
             .then(response => {
-                this.setState({
-                    campID: response.data.camp_id
-                });
+                alert("Success!")
             })
             .catch(() => {
                 console.log("Error while posting")
@@ -103,27 +134,31 @@ class CreateCamp extends React.Component {
 
         console.log(newCamp);
 
-        this.setState({
-            name: '',
-            description: '',
-            price: '',
-            oblast: '',
-            place_type: '',
-            food_and_place: '',
-            district: '',
-            street: '',
-            building_number: '',
-            place_name: '',
-            AdministratorAdminId: '',
-        });
+        // this.setState({
+        //     first_name: '',
+        //     last_name: '',
+        //     email: '',
+        //     phone: '',
+        //
+        //     name: '',
+        //     description: '',
+        //     price: '',
+        //     oblast: '',
+        //     place_type: '',
+        //     food_and_place: '',
+        //     district: '',
+        //     street: '',
+        //     building_number: '',
+        //     place_name: '',
+        //     AdministratorAdminId: '',
+        // });
     };
 
     renderContentBy(step) {
         switch (step) {
             case 0:
                 return (
-                    <StepTwo
-                        admin_id={this.state.admin_id}
+                    <StepTwoEdit
                         name={this.state.name}
                         description={this.state.description}
                         price={this.state.price}
@@ -148,16 +183,14 @@ class CreateCamp extends React.Component {
     render() {
         return (
             <div className="employer-cabinet-display">
-                <div className="row center-row">
+                <div className="row justify-content-center">
                     <Stepper
-                        className="col-9"
+                        className="col-11"
                         id="stepper-icons"
                         activeStep={this.state.activeStep}
                         alternativeLabel
                     >
-                        {/*<Step key={0}>*/}
-                        {/*    <div className="col-12 all-camps-big-text">Створення табору</div>*/}
-                        {/*</Step>*/}
+
                     </Stepper>
                 </div>
 
@@ -176,7 +209,7 @@ class CreateCamp extends React.Component {
                                         <line x1="9" y1="9" x2="9.01" y2="9" />
                                         <line x1="15" y1="9" x2="15.01" y2="9" />
                                     </svg>
-                                    Табір опублікований!
+                                    Інформація про табір відредагована!
                                 </div>
                             </div>
 
@@ -201,13 +234,6 @@ class CreateCamp extends React.Component {
                             <div className="col-9">
                                 <div className="buttons-vac-div">
                                     <div className="col-12 no-gutters">
-                                        {/*<button*/}
-                                        {/*    onClick={this.handleBack.bind(this)}*/}
-                                        {/*    id="back-btn-stepper-apply"*/}
-                                        {/*    disabled={this.state.activeStep === 0}*/}
-                                        {/*>*/}
-                                        {/*    Назад*/}
-                                        {/*</button>*/}
 
                                         {this.state.activeStep === this.getNumberOfSteps() - 1 ? (
                                             <button
@@ -235,4 +261,4 @@ class CreateCamp extends React.Component {
     }
 }
 
-export default CreateCamp;
+export default EditCamp;

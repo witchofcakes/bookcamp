@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import InputMask from "react-input-mask";
-import TableOrders from "./orders_table";
 import axios from "axios";
+import {animateScroll as scroll} from "react-scroll";
 
-export default class UserProfile extends React.Component {
+export default class EditAdminProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: 1,
+            adminID: this.props.match.params.id,
 
-            email: '',
             first_name: '',
             last_name: '',
-            phone_1: '',
-            phone_2: '',
-            phone_3: '',
-            password: '',
+            email: '',
+            phone: '',
         };
+
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -27,16 +25,13 @@ export default class UserProfile extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/api/users/findUserInfo/' + this.state.userID)
+        axios.get('http://localhost:4000/api/admins/getExactAdmin/' + this.state.adminID)
             .then(response => {
                 this.setState({
                     first_name: response.data.first_name,
                     last_name: response.data.last_name,
                     email: response.data.email,
-                    phone_1: response.data.phone_1,
-                    phone_2: response.data.phone_2,
-                    phone_3: response.data.phone_3,
-                    password: response.data.password,
+                    phone: response.data.phone,
                 });
             })
             .catch(function (error) {
@@ -44,20 +39,17 @@ export default class UserProfile extends React.Component {
             });
     }
 
-    editUser(e){
+    editAdmin(e){
         e.preventDefault();
 
-        const newUser = {
+        const newAdmin = {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
-            password: this.state.password,
             email: this.state.email,
-            phone_1:this.state.phone_1,
-            phone_2:this.state.phone_2,
-            phone_3:this.state.phone_3,
+            phone:this.state.phone,
         };
 
-        axios.post('http://localhost:4000/api/users/updateUser/' + this.state.userID, newUser)
+        axios.post('http://localhost:4000/api/admins/updateAdmin/' + this.state.adminID, newAdmin)
             .then(response => {
                 alert("Success!");
             })
@@ -65,7 +57,7 @@ export default class UserProfile extends React.Component {
                 console.log("Error while posting")
             });
 
-        console.log(newUser);
+        console.log(newAdmin);
 
         // this.setState({
         //     first_name: '',
@@ -89,15 +81,15 @@ export default class UserProfile extends React.Component {
                             <div className="row">
                                 <div className="col-12">
                                     <p className="name-page-all">
-                                        Особистий профіль
+                                        Сторінка адміністратора
                                     </p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-7">
-                                    <p className="small-desricption-text">
-                                        Ви можете відредагувати свої дані та подивитися всі свої замовлення.
-                                    </p>
+                                    {/*<p className="small-desricption-text">*/}
+                                    {/*    Ви можете відредагувати дані адміністратора.*/}
+                                    {/*</p>*/}
                                 </div>
                             </div>
                         </div>
@@ -164,12 +156,12 @@ export default class UserProfile extends React.Component {
                                 </div>
                                 <div className="col-6 create-vac-input-name">
                                     <InputMask
-                                        name='phone_1'
+                                        name='phone'
                                         mask="+380 (99) 999 99 99"
                                         placeholder="+380 (__) ___ __ __"
-                                        value={this.state.phone_1}
-                                        className={'apply-input-2'}
+                                        value={this.state.phone}
                                         onChange={this.handleChange}
+                                        className={'apply-input-2'}
                                     />
                                 </div>
                             </div>
@@ -178,63 +170,12 @@ export default class UserProfile extends React.Component {
 
                     <div className="row center-row">
                         <div className="col-9">
-
-                            <div className="row">
-                                <div className="col-6 create-vac-input-name">
-                                    Телефон (Необов'язковий)
-                                </div>
-                                <div className="col-6 create-vac-input-name">
-                                    Телефон (Необов'язковий)
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col-6 create-vac-input-name">
-                                    <input
-                                        type="email"
-                                        placeholder="+380 (__) ___ __ __"
-                                        name='phone_2'
-                                        value={this.state.phone_2}
-                                        className={'create-vac-input'}
-                                        aria-label="Назва вакансії"
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                                <div className="col-6 create-vac-input-name">
-                                    <InputMask
-                                        name='phone_3'
-                                        mask="+380 (99) 999 99 99"
-                                        placeholder="+380 (__) ___ __ __"
-                                        value={this.state.phone_3}
-                                        className={'apply-input-2'}
-                                        onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row center-row">
-                        <div className="col-9">
-                            <button className="save-changes-button" onClick={this.editUser}>
+                            <button className="save-changes-button" onClick={this.editAdmin.bind(this)}>
                                 Зберегти зміни
                             </button>
                         </div>
                     </div>
 
-                    <div className="row center-row">
-                        <div className="col-9">
-                            <p className="text-orders-user">
-                                Таблиця замовлень
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="row center-row">
-                        <div className="col-12">
-                            <TableOrders/>
-                        </div>
-                    </div>
                 </div>
             </div>
         );
