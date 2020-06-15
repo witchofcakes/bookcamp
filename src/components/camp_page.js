@@ -16,6 +16,8 @@ class CampPage extends React.Component {
         this.state = {
             campID: this.props.match.params.id,
             userID: 1,
+            adminID: null,
+
             AdministratorAdminId: null,
 
             name: null,
@@ -81,7 +83,7 @@ class CampPage extends React.Component {
                 user_id: this.state.userID,
                 camp_id: this.state.campID,
             };
-            console.log(obj);
+
             axios.post('http://localhost:4000/api/orders/createOrder', obj)
                 .then(res => {
                     alert("Замовлення пройшло успішно!");
@@ -90,6 +92,10 @@ class CampPage extends React.Component {
                 .catch(() => {
                     console.log("Error while creating order")
                 });
+
+            this.setState({
+                quantity: '',
+            })
         }
         else{
             alert("Будь ласка, введіть бажану кількість :(");
@@ -280,7 +286,7 @@ class CampPage extends React.Component {
                                                 </div>
                                                 <div className="col-7">
                                                     <div className="vacancy-info-categories-text">
-                                                        <a className="admin-vacancy-link" href={`/admin-page/${this.state.adminID}`}>
+                                                        <a className="admin-vacancy-link" href={`/admin-page/${this.state.AdministratorAdminId}`}>
                                                             {this.state.admin_first_name} {this.state.admin_last_name}
                                                         </a>
                                                     </div>

@@ -42,33 +42,42 @@ export default class EditAdminProfile extends React.Component {
     editAdmin(e){
         e.preventDefault();
 
-        const newAdmin = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            phone:this.state.phone,
-        };
+        const { first_name, last_name, email, phone} = this.state;
 
-        axios.post('http://localhost:4000/api/admins/updateAdmin/' + this.state.adminID, newAdmin)
-            .then(response => {
-                alert("Success!");
-            })
-            .catch(() => {
-                console.log("Error while posting")
-            });
+        if (!first_name || !last_name || !email || !phone) {
+            alert("Будь ласка, заповніть всі обов'язкові поля")
+        }
 
-        console.log(newAdmin);
+        else {
 
-        // this.setState({
-        //     first_name: '',
-        //     last_name: '',
-        //     email: '',
-        //     phone: '',
-        //
-        // });
+            const newAdmin = {
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                email: this.state.email,
+                phone: this.state.phone,
+            };
 
-        // this.props.history.push('/all-admins');
-        // window.location.reload();
+            axios.post('http://localhost:4000/api/admins/updateAdmin/' + this.state.adminID, newAdmin)
+                .then(response => {
+                    alert("Success!");
+                })
+                .catch(() => {
+                    console.log("Error while posting")
+                });
+
+            console.log(newAdmin);
+
+            // this.setState({
+            //     first_name: '',
+            //     last_name: '',
+            //     email: '',
+            //     phone: '',
+            //
+            // });
+
+            // this.props.history.push('/all-admins');
+            // window.location.reload();
+        }
     }
 
     render() {

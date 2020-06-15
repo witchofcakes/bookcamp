@@ -70,43 +70,52 @@ class CreateAdmin extends React.Component {
     handlePublish = (e) => {
         e.preventDefault();
 
-        this.setState({
-            activeStep: this.state.activeStep + 1,
-        });
+        const { first_name, last_name, email, phone} = this.state;
 
-        scroll.scrollToTop({
-            duration: 500,
-            delay: 0,
-            smooth: true
-        });
+        if (!first_name || !last_name || !email || !phone) {
+            alert("Будь ласка, заповніть всі обов'язкові поля")
+        }
 
-        const newAdmin = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            phone:this.state.phone,
-        };
+        else {
 
-        axios.post('http://localhost:4000/api/admins/createAdmin', newAdmin)
-            .then(response => {
-                this.setState({
-                    adminID: response.data.admin_id
-                });
-            })
-            .catch(() => {
-                console.log("Error while posting")
+            this.setState({
+                activeStep: this.state.activeStep + 1,
             });
 
-        console.log(newAdmin);
+            scroll.scrollToTop({
+                duration: 500,
+                delay: 0,
+                smooth: true
+            });
+
+            const newAdmin = {
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                email: this.state.email,
+                phone: this.state.phone,
+            };
+
+            axios.post('http://localhost:4000/api/admins/createAdmin', newAdmin)
+                .then(response => {
+                    this.setState({
+                        adminID: response.data.admin_id
+                    });
+                })
+                .catch(() => {
+                    console.log("Error while posting")
+                });
+
+            console.log(newAdmin);
 
 
-        this.setState({
-            first_name: '',
-            last_name: '',
-            email: '',
-            phone: '',
+            this.setState({
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone: '',
 
-        });
+            });
+        }
     };
 
     renderContentBy(step) {
@@ -166,16 +175,14 @@ class CreateAdmin extends React.Component {
 
                             <div className="row row-expansion-panel-center">
                                 <div className="col-9 align-center-btn">
-                                    <Link
+                                    <a
                                         className="look-at-vac-link"
-                                        to={{
-                                            pathname: `/admin-page/${this.state.adminID}`,
-                                        }}
+                                        href={`/admin-page/${this.state.adminID}`}
                                     >
                                         <button className="look-at-vac-btn">
                                             Переглянути адміна
                                         </button>
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </div>

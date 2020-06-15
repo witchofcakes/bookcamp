@@ -8,6 +8,7 @@ import  "./stylesheets/mobile.css";
 import "./stylesheets/login_user.css"
 import "./stylesheets/create_camp.css"
 import "./stylesheets/user_profile.css"
+import "./stylesheets/table_orders.css"
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from "react-router-dom";
 

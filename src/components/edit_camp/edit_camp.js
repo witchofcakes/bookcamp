@@ -100,58 +100,67 @@ class EditCamp extends React.Component {
     handlePublish = (e) => {
         e.preventDefault();
 
-        this.setState({
-            activeStep: this.state.activeStep + 1,
-        });
+        const { name, description, price, oblast, place_type, food_and_place, street, building_number, place_name } = this.state;
 
-        scroll.scrollToTop({
-            duration: 500,
-            delay: 0,
-            smooth: true
-        });
+        if (!name || !description || !price || !oblast || !place_type || !food_and_place || !street || !building_number || !place_name) {
+            alert("Будь ласка, заповніть всі обов'язкові поля")
+        }
 
-        const newCamp = {
-            name: this.state.name,
-            description: this.state.description,
-            price: this.state.price,
-            oblast: this.state.oblast,
-            place_type: this.state.place_type,
-            food_and_place: this.state.food_and_place,
-            district: this.state.district,
-            street: this.state.street,
-            building_number: this.state.building_number,
-            place_name: this.state.place_name,
-            AdministratorAdminId: this.state.AdministratorAdminId,
-        };
+        else {
 
-        axios.post('http://localhost:4000/api/camps/updateCamp/' + this.state.campID, newCamp)
-            .then(response => {
-                alert("Success!")
-            })
-            .catch(() => {
-                console.log("Error while posting")
+            this.setState({
+                activeStep: this.state.activeStep + 1,
             });
 
-        console.log(newCamp);
+            scroll.scrollToTop({
+                duration: 500,
+                delay: 0,
+                smooth: true
+            });
 
-        // this.setState({
-        //     first_name: '',
-        //     last_name: '',
-        //     email: '',
-        //     phone: '',
-        //
-        //     name: '',
-        //     description: '',
-        //     price: '',
-        //     oblast: '',
-        //     place_type: '',
-        //     food_and_place: '',
-        //     district: '',
-        //     street: '',
-        //     building_number: '',
-        //     place_name: '',
-        //     AdministratorAdminId: '',
-        // });
+            const newCamp = {
+                name: this.state.name,
+                description: this.state.description,
+                price: this.state.price,
+                oblast: this.state.oblast,
+                place_type: this.state.place_type,
+                food_and_place: this.state.food_and_place,
+                district: this.state.district,
+                street: this.state.street,
+                building_number: this.state.building_number,
+                place_name: this.state.place_name,
+                AdministratorAdminId: this.state.AdministratorAdminId,
+            };
+
+            axios.post('http://localhost:4000/api/camps/updateCamp/' + this.state.campID, newCamp)
+                .then(response => {
+                    alert("Success!")
+                })
+                .catch(() => {
+                    console.log("Error while posting")
+                });
+
+            console.log(newCamp);
+
+            // this.setState({
+            //     first_name: '',
+            //     last_name: '',
+            //     email: '',
+            //     phone: '',
+            //
+            //     name: '',
+            //     description: '',
+            //     price: '',
+            //     oblast: '',
+            //     place_type: '',
+            //     food_and_place: '',
+            //     district: '',
+            //     street: '',
+            //     building_number: '',
+            //     place_name: '',
+            //     AdministratorAdminId: '',
+            // });
+        }
     };
 
     renderContentBy(step) {
@@ -215,16 +224,14 @@ class EditCamp extends React.Component {
 
                             <div className="row row-expansion-panel-center">
                                 <div className="col-9 align-center-btn">
-                                    <Link
+                                    <a
                                         className="look-at-vac-link"
-                                        to={{
-                                            pathname: `/camp-page/${this.state.campID}`,
-                                        }}
+                                        href={`/camp-page/${this.state.campID}`}
                                     >
                                         <button className="look-at-vac-btn">
                                             Переглянути табір
                                         </button>
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </div>

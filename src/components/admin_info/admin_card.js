@@ -15,23 +15,20 @@ class AdminCard extends React.Component {
         return (
             <div className="row center-row">
                 <div className="col-12 col-lg-12">
-                    <Link
-                        to={{
-                            pathname: `/admin-page/${this.state.adminID}`,
-                        }}
+                    <a
+                        href={`/admin-page/${this.state.adminID}`}
                         className="card-form-link-big"
                     >
                         <div className="form-card-employer">
                             <div className="row">
                                 <div className="col-6 ellipsis-col-details padding-top-5">
                                     <span>
-                                        <Link
+                                        <a
                                             className="title-card-form"
-                                            to={{
-                                                pathname: `/admin-page/${this.state.adminID}`,
-                                            }}>
+                                            href={`/admin-page/${this.state.adminID}`}
+                                        >
                                             {this.props.index}. {this.props.name} {this.props.surname}
-                                        </Link>
+                                        </a>
                                     </span>
                                 </div>
                             </div>
@@ -45,7 +42,7 @@ class AdminCard extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </Link>
+                    </a>
                 </div>
             </div>
         );

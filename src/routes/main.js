@@ -8,12 +8,14 @@ import LogIn from "../components/login_registrate/log_in_user";
 import CreateCamp from "../components/create_camp/create_camp";
 import NavbarAdmin from "../components/header_footer/navbar_admin";
 import NavbarLoggedIn from "../components/header_footer/navbar_logged_in";
-import UserProfile from "../components/user_profile";
+import UserProfile from "../components/user_profile/user_profile";
 import EditCamp from "../components/edit_camp/edit_camp";
 import AllAdmins from "../components/admin_info/all_admins";
 import CreateAdmin from "../components/create_camp/create_admin";
 import AdminProfile from "../components/admin_info/admin_profile";
 import EditAdminProfile from "../components/admin_info/edit_admin_profile";
+
+import axios from "axios";
 
 class Main extends React.Component {
     render() {
@@ -40,8 +42,33 @@ class DefaultContainer extends React.Component{
             isAdmin: true,
             loggedIn: false,
 
+            user: '',
+            authenticated: true
+
         };
     }
+
+    // componentDidMount() {
+    //     axios.get('http://localhost:4000/api/users/userCheck', {withCredentials: true}).then(response => {
+    //         if (typeof response.data.user !== 'undefined')
+    //             this.setState({
+    //                 user: response.data.user,
+    //                 authenticated: true
+    //             });
+    //         else{
+    //             this.setState({
+    //                 user: {},
+    //                 authenticated: false
+    //             });
+    //         }
+    //     }) .catch(error => {
+    //         console.log(error)
+    //         return this.setState({
+    //             user: {},
+    //             authenticated: false
+    //         });
+    //     });
+    // }
 
     render(){
         return(
@@ -51,7 +78,7 @@ class DefaultContainer extends React.Component{
                     :
                     <React.Fragment>
                         {
-                            this.state.loggedIn ? <NavbarLoggedIn/> : <NavbarNotLoggedIn/>
+                            this.state.authenticated ? <NavbarLoggedIn/> : <NavbarNotLoggedIn/>
                         }
 
                     </React.Fragment>
