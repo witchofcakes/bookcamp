@@ -15,23 +15,14 @@ class CampCard extends React.Component {
         return (
             <div className="row center-row">
                 <div className="col-12 col-lg-12">
-                    <Link
-                        to={{
-                            pathname: `/camp-page/${this.state.campID}`,
-                        }}
-                        className="card-form-link-big"
-                    >
+                    <a href={`/camp-page/${this.state.campID}`} className="card-form-link-big">
                         <div className="form-card-employer">
                             <div className="row">
                                 <div className="col-6 ellipsis-col-details padding-top-5">
                                     <span>
-                                        <Link
-                                            className="title-card-form"
-                                            to={{
-                                                pathname: `/camp-page/${this.state.campID}`,
-                                            }}>
+                                        <a className="title-card-form" href={`/camp-page/${this.state.campID}`}>
                                         {this.props.title}
-                                        </Link>
+                                        </a>
                                     </span>
                                     <p className="location-margin-text-card">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="feather-standart feather-location-camp">
@@ -62,7 +53,7 @@ class CampCard extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </Link>
+                    </a>
                 </div>
             </div>
         );

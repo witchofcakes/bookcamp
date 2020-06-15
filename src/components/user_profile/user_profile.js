@@ -47,25 +47,37 @@ export default class UserProfile extends React.Component {
     editUser(e){
         e.preventDefault();
 
-        const newUser = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            password: this.state.password,
-            email: this.state.email,
-            phone_1:this.state.phone_1,
-            phone_2:this.state.phone_2,
-            phone_3:this.state.phone_3,
-        };
+        if (!this.state.email || !this.state.password  || !this.state.first_name || !this.state.last_name || !this.state.phone_1) {
+            alert("Будь ласка, заповніть всі обов'язкові поля");
+        }
 
-        axios.post('http://localhost:4000/api/users/updateUser/' + this.state.userID, newUser)
-            .then(response => {
-                alert("Success!");
-            })
-            .catch(() => {
-                console.log("Error while posting")
-            });
+        else  if (this.state.password.length < 8) {
+            alert("Довжина паролю має бути від 8 символів");
+        }
 
-        console.log(newUser);
+        else {
+
+            const newUser = {
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                password: this.state.password,
+                email: this.state.email,
+                phone_1: this.state.phone_1,
+                phone_2: this.state.phone_2,
+                phone_3: this.state.phone_3,
+            };
+
+            axios.post('http://localhost:4000/api/users/userUpdate/', newUser)
+                .then(response => {
+                    alert("Success!");
+                })
+                .catch((response) => {
+                    console.log(response);
+                    console.log("Error while posting")
+                });
+
+            console.log(newUser);
+        }
 
         // this.setState({
         //     first_name: '',
@@ -85,7 +97,7 @@ export default class UserProfile extends React.Component {
                 <div className="container">
 
                     <div className="row center-row">
-                        <div className="col-9">
+                        <div className="col-12">
                             <div className="row">
                                 <div className="col-12">
                                     <p className="name-page-all">
@@ -104,7 +116,7 @@ export default class UserProfile extends React.Component {
                     </div>
 
                     <div className="row center-row">
-                        <div className="col-9">
+                        <div className="col-12">
                             <div className="row">
                                 <div className="col-6 create-vac-input-name-title">
                                     Ім'я
@@ -139,7 +151,7 @@ export default class UserProfile extends React.Component {
                         </div>
                     </div>
                     <div className="row center-row">
-                        <div className="col-9">
+                        <div className="col-12">
 
                             <div className="row">
                                 <div className="col-6 create-vac-input-name">
@@ -177,7 +189,7 @@ export default class UserProfile extends React.Component {
                     </div>
 
                     <div className="row center-row">
-                        <div className="col-9">
+                        <div className="col-12">
 
                             <div className="row">
                                 <div className="col-6 create-vac-input-name">
@@ -190,13 +202,12 @@ export default class UserProfile extends React.Component {
 
                             <div className="row">
                                 <div className="col-6 create-vac-input-name">
-                                    <input
-                                        type="email"
+                                    <InputMask
+                                        mask="+380 (99) 999 99 99"
                                         placeholder="+380 (__) ___ __ __"
                                         name='phone_2'
                                         value={this.state.phone_2}
                                         className={'create-vac-input'}
-                                        aria-label="Назва вакансії"
                                         onChange={this.handleChange}
                                     />
                                 </div>
@@ -215,15 +226,15 @@ export default class UserProfile extends React.Component {
                     </div>
 
                     <div className="row center-row">
-                        <div className="col-9">
-                            <button className="save-changes-button" onClick={this.editUser}>
+                        <div className="col-6">
+                            <button className="save-changes-button" onClick={this.editUser.bind(this)}>
                                 Зберегти зміни
                             </button>
                         </div>
                     </div>
 
                     <div className="row center-row">
-                        <div className="col-9">
+                        <div className="col-12">
                             <p className="text-orders-user">
                                 Таблиця замовлень
                             </p>

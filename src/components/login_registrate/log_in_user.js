@@ -15,7 +15,7 @@ export default class LogIn extends React.Component {
             email: null,
 
             verified: null,
-            authenticated:null,
+            authenticated: null,
 
             showPassword: false,
         };
@@ -40,7 +40,7 @@ export default class LogIn extends React.Component {
     };
 
     authenticateUser() {
-        axios.get('http://localhost:4000/api/users/login').then(response => {
+        axios.get('http://localhost:4000/api/users/userCheck').then(response => {
             if (typeof response.data.user !== 'undefined')
                 this.setState({
                     user: response.data.user,
@@ -64,20 +64,16 @@ export default class LogIn extends React.Component {
         this.authenticateUser();
     }
 
+
     handleLoginClick = (e) => {
         e.preventDefault();
         const { email, password } = this.state;
 
         if (!password || !email) {
-            return this.setState({
-                success: false,
-                response: 'Please complete the form',
-
-            });
-
+            alert("Будь ласка, заповніть всі поля")
         }
 
-        axios.post('/api/users/checkVerified', { email }).then(response =>{
+        axios.post('http://localhost:4000/api/users/login', { password, email }).then(response =>{
 
             console.log(response.data);
 
@@ -85,30 +81,31 @@ export default class LogIn extends React.Component {
                 response: response.data
             });
 
-            if(response.data === true){
-                this.setState({
-                    verified: true
-                });
-                const { email, password, verified } = this.state;
-                //if(verified===true){
-                axios.post('/api/users/login', { email, password })
-                    .then(response => {
-                        console.log(response);
-                        this.setState({ success: true, response: response.data });
-                        if(response.data==='success'){
-                            this.props.history.push('/');
-                            window.location.reload();
-                        }
-                    }).catch(error => {
-                    this.setState({ success: false, response: 'Invalid username or password.' });
-                });
-                //}
-            }
+            // if(response.data === true){
+            //     this.setState({
+            //         verified: true
+            //     });
+            //     const { email, password, verified } = this.state;
+            //     //if(verified===true){
+            //     axios.post('/api/users/login', { email, password })
+            //         .then(response => {
+            //             console.log(response);
+            //             this.setState({ success: true, response: response.data });
+            //             if(response.data==='success'){
+            //                 this.props.history.push('/');
+            //                 window.location.reload();
+            //             }
+            //         }).catch(error => {
+            //         this.setState({ success: false, response: 'Invalid username or password.' });
+            //     });
+            //     //}
+            // }
 
+            this.props.history.push('/');
+            window.location.reload();
 
         }).catch(error => {
-            this.setState({ success: false, response: 'Error.' });
-
+            alert("Неправильний логін або пароль");
         });
     };
 
