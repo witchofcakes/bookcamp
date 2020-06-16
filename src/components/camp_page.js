@@ -18,6 +18,8 @@ class CampPage extends React.Component {
             userID: 1,
             adminID: null,
 
+            isAdmin: false,
+
             AdministratorAdminId: null,
 
             name: null,
@@ -82,6 +84,7 @@ class CampPage extends React.Component {
 
                 user_id: this.state.userID,
                 camp_id: this.state.campID,
+
             };
 
             axios.post('http://localhost:4000/api/orders/createOrder', obj)
@@ -151,33 +154,41 @@ class CampPage extends React.Component {
                                     <p className="vacancy-title-small margin-info-row">
                                         {this.state.oblast}, {this.state.place_name}
                                     </p>
-                                    <div className="margin-edit-delete-buttons">
-                                        <Tooltip title={"Редагувати табір"}>
-                                            <a href={"/edit-camp/" + this.state.campID}>
-                                                <button className="edit-button-camp">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        className="feather-edit-employer"
-                                                    >
-                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                                                    </svg>
-                                                </button>
-                                            </a>
-                                        </Tooltip>
-                                        <Tooltip title="Видалити табір">
-                                            <button className="delete-button-camp" onClick={this.deleteCamp.bind(this, this.state.campID)}>
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    className="feather-trash-employer"
-                                                >
-                                                    <polyline points="3 6 5 6 21 6" />
-                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                                </svg>
-                                            </button>
-                                        </Tooltip>
-                                    </div>
+
+                                    {
+                                        this.state.isAdmin ?
+                                            <div className="margin-edit-delete-buttons">
+                                                <Tooltip title={"Редагувати табір"}>
+                                                    <a href={"/edit-camp/" + this.state.campID}>
+                                                        <button className="edit-button-camp">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                className="feather-edit-employer"
+                                                            >
+                                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                                                            </svg>
+                                                        </button>
+                                                    </a>
+                                                </Tooltip>
+                                                <Tooltip title="Видалити табір">
+                                                    <button className="delete-button-camp" onClick={this.deleteCamp.bind(this, this.state.campID)}>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            className="feather-trash-employer"
+                                                        >
+                                                            <polyline points="3 6 5 6 21 6" />
+                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                        </svg>
+                                                    </button>
+                                                </Tooltip>
+                                            </div>
+                                        :
+                                            ""
+                                    }
+
+
                                 </div>
                                 <div className="col-4">
                                     <div className="box-order-camp">
@@ -221,7 +232,7 @@ class CampPage extends React.Component {
                     </TabList>
                     <div className="container">
                         <div className="row center-row">
-                            <div className="col-8">
+                            <div className="col-8 min-height-tabs">
                                 <TabPanel>
                                     <div className="row row-vacancy-info">
                                         <div className="col-12 column-vacancy-info">
