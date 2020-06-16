@@ -11,6 +11,17 @@ class CampCard extends React.Component {
         };
     }
 
+    renderPrice(value){
+        const nf = new Intl.NumberFormat("ukr", {
+            style: "currency",
+            currency: "UAH",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        return nf.format(value);
+    }
+
     render() {
         return (
             <div className="row center-row">
@@ -44,12 +55,18 @@ class CampCard extends React.Component {
 
                             <div className="row">
                                 <div className="col-6 align-items-center">
-                                    <span className="price-card-camp">₴‎ {this.props.price}</span>
+                                    <span className="price-card-camp">
+                                        {this.renderPrice(this.props.price)}
+                                        {/*₴‎ {this.props.price}*/}
+                                    </span>
                                 </div>
                                 <div className="col-6 justify-content-end">
-                                    <button className="button-book-card-camp">
-                                        Замовити
-                                    </button>
+                                    {/*<button className="button-book-card-camp">*/}
+                                    {/*    Замовити*/}
+                                    {/*</button>*/}
+                                    {/*<a className="admin-vacancy-link" href={`/admin-page/${this.props.admin_id}`}>*/}
+                                    {/*    {this.props.admin_first_name} {this.props.admin_last_name}*/}
+                                    {/*</a>*/}
                                 </div>
                             </div>
                         </div>

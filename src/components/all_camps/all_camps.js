@@ -46,6 +46,7 @@ class AllCamps extends React.Component {
                 this.setState({
                     camps: response.data
                 });
+                console.log(this.state.camps)
             })
             .catch(function(error) {
                 console.log(error);
@@ -69,7 +70,13 @@ class AllCamps extends React.Component {
                     {
                         this.state.camps.map((camp) => {
                             return (
-                                <CampCard index={camp.camp_id} title={camp.name} location={camp.oblast} description={camp.description} price={camp.price}/>
+                                <CampCard
+                                    index={camp.camp_id}
+                                    title={camp.name}
+                                    location={camp.oblast}
+                                    description={camp.description}
+                                    price={camp.price}
+                                />
                             );
                         })
                     }

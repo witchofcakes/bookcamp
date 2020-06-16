@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import InputMask from "react-input-mask";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -13,6 +13,8 @@ export default class AdminProfile extends React.Component {
             last_name: '',
             email: '',
             phone: '',
+
+            isAdmin: false,
         };
     }
 
@@ -55,33 +57,39 @@ export default class AdminProfile extends React.Component {
                                         Сторінка адміністратора
                                     </p>
                                 </div>
-                                <div className="col-5 justify-content-end">
-                                    <Tooltip title={"Редагувати адміна"}>
-                                        <a href={"/edit-admin/" + this.state.adminID}>
-                                            <button className="edit-button-camp">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    className="feather-edit-employer"
-                                                >
-                                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                                                </svg>
-                                            </button>
-                                        </a>
-                                    </Tooltip>
-                                    <Tooltip title="Видалити адміна">
-                                        <button className="delete-button-camp" onClick={this.deleteAdmin.bind(this, this.state.adminID)}>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                className="feather-trash-employer"
-                                            >
-                                                <polyline points="3 6 5 6 21 6" />
-                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                            </svg>
-                                        </button>
-                                    </Tooltip>
-                                </div>
+
+                                {
+                                    this.state.isAdmin ?
+                                        <div className="col-5 justify-content-end">
+                                            <Tooltip title={"Редагувати адміна"}>
+                                                <a href={"/edit-admin/" + this.state.adminID}>
+                                                    <button className="edit-button-camp">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            className="feather-edit-employer"
+                                                        >
+                                                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                                                        </svg>
+                                                    </button>
+                                                </a>
+                                            </Tooltip>
+                                            <Tooltip title="Видалити адміна">
+                                                <button className="delete-button-camp" onClick={this.deleteAdmin.bind(this, this.state.adminID)}>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        className="feather-trash-employer"
+                                                    >
+                                                        <polyline points="3 6 5 6 21 6" />
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                    </svg>
+                                                </button>
+                                            </Tooltip>
+                                        </div>
+                                        :
+                                        ""
+                                }
                             </div>
                             <div className="row">
                                 <div className="col-7">

@@ -64,7 +64,6 @@ export default class LogIn extends React.Component {
         this.authenticateUser();
     }
 
-
     handleLoginClick = (e) => {
         e.preventDefault();
         const { email, password } = this.state;

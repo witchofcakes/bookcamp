@@ -18,38 +18,20 @@ import EditAdminProfile from "../components/admin_info/edit_admin_profile";
 import axios from "axios";
 
 class Main extends React.Component {
-    render() {
-        return (
-            <div>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path="/registrate-user" component={LoginContainer}/>
-                        <Route path="/login-user" component={LoginContainer}/>
-                        <Route component={DefaultContainer}/>
-                    </Switch>
-                </BrowserRouter>
-            </div>
-        )
-    }
-}
-
-class DefaultContainer extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
 
-            isAdmin: true,
-            loggedIn: false,
-
             user: '',
-            authenticated: true
+            // authenticated: null
 
         };
     }
 
     // componentDidMount() {
-    //     axios.get('http://localhost:4000/api/users/userCheck', {withCredentials: true}).then(response => {
+    //     axios
+    //         .get('http://localhost:4000/api/users/userCheck', {withCredentials: true}).then(response => {
     //         if (typeof response.data.user !== 'undefined')
     //             this.setState({
     //                 user: response.data.user,
@@ -68,7 +50,35 @@ class DefaultContainer extends React.Component{
     //             authenticated: false
     //         });
     //     });
+    //     console.log(this.state.authenticated)
     // }
+
+    render() {
+        return (
+            <div>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/registrate-user" component={LoginContainer}/>
+                        <Route path="/login-user" component={LoginContainer}/>
+                        <Route component={DefaultContainer} auth={this.state.authenticated}/>
+                    </Switch>
+                </BrowserRouter>
+            </div>
+        )
+    }
+}
+
+class DefaultContainer extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+            isAdmin: false,
+            authenticated: true,
+
+        };
+    }
 
     render(){
         return(

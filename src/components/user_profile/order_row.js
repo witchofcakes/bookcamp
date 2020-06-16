@@ -49,13 +49,13 @@ class RowOrder extends React.Component {
 
     paymentDate() {
         if(this.props.isPaid){
-            const nf = new Intl.DateTimeFormat("ukr", {
+            return Intl.DateTimeFormat('uk-UA', {
                 year: '2-digit',
                 month: '2-digit',
                 day: '2-digit',
-            });
-
-            return nf.format(this.props.updatedAt);
+            })
+                .format(new Date(this.props.updatedAt))
+                .toString();
         }
         else{
             return(
@@ -114,8 +114,30 @@ class RowOrder extends React.Component {
         window.location.reload();
     }
 
-    payOrder(e){
+    payOrder(parameter, e){
         e.preventDefault();
+
+        axios.get('http://localhost:4000/api/orders/payOrder/' + parameter)
+            .then(response => {
+                alert("Замовлення успішно сплачене!");
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        window.location.reload();
+    }
+
+    amountAllOrder() {
+        let amount = 0;
+        this.props.camps.map((camp) => {
+                return (
+                    amount += parseInt(camp.OrderCamp.amount)
+                )
+            }
+        );
+
+        return amount;
     }
 
     render() {
@@ -168,13 +190,7 @@ class RowOrder extends React.Component {
 
                     <TableCell className="vac-row-date" align="left">
                         <p className="td-margin">
-                            {
-                                this.props.camps.map((camp, idx) => {
-                                    return (
-                                        parseInt(camp.OrderCamp.amount)
-                                    )}
-                                )
-                            }
+                            {this.amountAllOrder()}
                         </p>
                     </TableCell>
 
@@ -200,7 +216,7 @@ class RowOrder extends React.Component {
                                     Сплачено
                                 </button>
                                 :
-                                <button onClick={this.payOrder.bind(this)} className="pay-button-table">
+                                <button onClick={this.payOrder.bind(this, this.props.index)} className="pay-button-table">
                                     Сплатити
                                 </button>
                         }

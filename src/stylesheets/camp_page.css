@@ -2121,3 +2121,7 @@ li.vacancy-text-color {
 .margin-edit-delete-buttons{
     margin-top: 30px;
 }
+
+.min-height-tabs{
+    min-height: 450px !important;
+}
